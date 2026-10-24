@@ -139,10 +139,17 @@ int main(int argc, char **argv)
             break;
         case 'n': dry_run = 1; break;
         case OPT_FAST: verify = 0; break;
-        case 'h': usage(stdout); return 0;
-        case 'V': printf("dubli %s\n", DUBLI_VERSION); return 0;
+        case 'h':
+            usage(stdout);
+            free(so.excludes);
+            return 0;
+        case 'V':
+            printf("dubli %s\n", DUBLI_VERSION);
+            free(so.excludes);
+            return 0;
         default:
             fputs("Подробнее: dubli --help\n", stderr);
+            free(so.excludes);
             return 2;
         }
     }
