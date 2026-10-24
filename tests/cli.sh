@@ -123,6 +123,10 @@ expect_eq "delete+link" "$?" "2"
 expect_eq "плохой размер" "$?" "2"
 "$BIN" -n "$T" >/dev/null 2>&1
 expect_eq "dry-run без действия" "$?" "2"
+"$BIN" --help | grep -qF -- "--keep" && ok || fail "help"
+"$BIN" -V | grep -qF "dubli 1.0.0" && ok || fail "version"
+"$BIN" --bogus >/dev/null 2>&1
+expect_eq "неизвестный ключ" "$?" "2"
 "$BIN" -f xml "$T" >/dev/null 2>&1
 expect_eq "плохой формат" "$?" "2"
 
