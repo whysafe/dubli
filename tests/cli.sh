@@ -100,7 +100,7 @@ expect_contains "keep shortest" "$out" "  = $T/b/hello copy.txt"
 # --- machine-readable formats --------------------------------------------
 json=$("$BIN" -f json "$T")
 groups=$(python3 -c 'import json,sys; d=json.load(sys.stdin); print(len(d["groups"]), d["total"]["duplicates"], d["total"]["wasted"], d["scanned"]["hardlinks"])' <<<"$json")
-expect_eq "json" "$groups" "2 3 10012"
+expect_eq "json" "$groups" "2 3 10012 1"
 keep=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["groups"][1]["duplicates"][0])' <<<"$json")
 expect_eq "json пути" "$keep" "$T/b/hello copy.txt"
 
