@@ -1,0 +1,4 @@
+/dubli
+*.o
+/tests/test_unit
+*.dSYM/

@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: make CFLAGS="-O2 -Werror"
+      - name: Test
+        run: make test CFLAGS="-O2 -Werror"
+
+  sanitizers:
+    runs-on: ubuntu-latest
+    env:
+      UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test with ASan and UBSan
+        run: |
+          make test CC=clang \
+            CFLAGS="-O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer" \
+            LDFLAGS="-fsanitize=address,undefined"
